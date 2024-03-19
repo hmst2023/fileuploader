@@ -71,7 +71,7 @@ def remove_expired_files() -> None:
 
 
 @app.get('/')
-async def get_new_entry_id(user_id: str | None = Depends(auth_handler.auth_optional_wrapper)) -> JSONResponse:
+async def get_new_entry_id(user_id=Depends(auth_handler.auth_optional_wrapper)) -> JSONResponse:
     response = db.put({'value':None, 'user':user_id}, token_urlsafe(64), expire_in=(3600 if user_id else 360))  # 6 mins
     print(response, datetime.datetime.now())
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=response['key'])

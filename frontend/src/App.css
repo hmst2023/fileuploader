@@ -67,6 +67,7 @@
   background-color: #1c202b;
   font-size:x-small;
   align-items: center;
+  color: #5f4956;
   & a {
     color: #5f4956;
     text-decoration: none;
@@ -81,6 +82,8 @@
     justify-content: space-between;
     height: max-content;
     padding: 2%;
+    color: #5f4956;
+    font-size:medium;
     background-color: #1c202b;
     & a {
       color: #5f4956;

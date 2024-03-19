@@ -6,7 +6,6 @@ from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from decouple import config  # deactivate for use with deta
 from setup import DEVELOPER_MODE
-from typing import Annotated, Optional
 
 if DEVELOPER_MODE:
     SECRET_STRING = config('SECRET_STRING', cast=str)  # deactivate for use with deta
@@ -50,7 +49,7 @@ class Authorization:
     def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
         return self.decode_token(auth.credentials)
 
-    def auth_optional_wrapper(self, auth: HTTPAuthorizationCredentials | None = Security(optional_security)):
+    def auth_optional_wrapper(self, auth=Security(optional_security)):
         if not auth:
             return None
         return self.decode_token(auth.credentials)

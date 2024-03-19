@@ -14,14 +14,9 @@ function Start() {
   const [error, setError] = useState('');
   const [uploadId, setUploadId] = useState('');
   const [uploaded, setUploaded] = useState(false);
+  const [timer, setTimer] = useState(true);
   let didInit = useRef(false);
   let positivCheck = useRef(false);
-
-  if (!auth){
-    setTimeout(function() { didInit.current=false; navigate(0)}, 360000);
-  } else {
-    setTimeout(function() { didInit.current=false; navigate(0)}, 3600000);
-  }
 
   const headerNotAuthenticated = {"Content-Type": "application/json"}
   const headerAuthenticated = {
@@ -82,6 +77,7 @@ function Start() {
         if (isUploaded) {
           setUploaded(isUploaded);
           positivCheck.current = true;
+          setTimer(false)
         } 
         setError([])
       }
@@ -95,12 +91,25 @@ function Start() {
   clearTimeout(id2);
   }
 
+  useEffect(() => {
+    if (timer){
+      if (!auth){
+        var intervalID = setTimeout(function() { didInit.current=false; navigate(0)}, 360000);
+      } else {
+        var intervalID = setTimeout(function() { didInit.current=false; navigate(0)}, 3600000);
+      }
+    }
+    return () => clearInterval(intervalID);
+  }, [timer]);
+
+
   useEffect(()=>{
     if (!didInit.current) {
       getUploadId();
       didInit.current = true;
     }
     },[])
+
   useEffect(() => {
     const intervalCall = window.setInterval(() => {
         if (uploadId !== '' && !positivCheck.current){
