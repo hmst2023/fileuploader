@@ -1,22 +1,32 @@
 import './App.css';
 import {QRCodeSVG} from 'qrcode.react';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import useAuth from './hooks/useAuth';
 
 const link = process.env.REACT_APP_LOCATION
-
-
 
 function Start() {
 
   let navigate = useNavigate()
   
-  setTimeout(function() { didInit=false; navigate(0)}, 360000);
+  const {auth, setAuth} = useAuth();
+  const [error, setError] = useState('');
+  const [uploadId, setUploadId] = useState('');
+  const [uploaded, setUploaded] = useState(false);
+  let didInit = useRef(false);
+  let positivCheck = useRef(false);
 
-  const [error, setError] = useState({})
-  const [uploadId, setUploadId] = useState('')
-  let didInit = false;
+  if (!auth){
+    setTimeout(function() { didInit.current=false; navigate(0)}, 360000);
+  } else {
+    setTimeout(function() { didInit.current=false; navigate(0)}, 3600000);
+  }
 
+  const headerNotAuthenticated = {"Content-Type": "application/json"}
+  const headerAuthenticated = {
+    Authorization : `Bearer ${auth}`
+  }
 
   const getUploadId = async() => {
     const timeout = 12000;
@@ -27,9 +37,7 @@ function Start() {
       const res = await fetch(process.env.REACT_APP_BACKEND_LOCATION, {
         signal: controller.signal,
         method:"GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: auth ? headerAuthenticated : headerNotAuthenticated,
 
       });
       if (!res.ok){
@@ -50,29 +58,61 @@ function Start() {
   };
   clearTimeout(id2);
   }
+  const checkUploadId = async() => {
+    const timeout = 12000;
+    const controller = new AbortController();
+    const id2 = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+      const res = await fetch(process.env.REACT_APP_BACKEND_LOCATION+'check/'+uploadId, {
+        signal: controller.signal,
+        method:"GET",
+        headers: headerNotAuthenticated,
+
+      });
+      if (!res.ok){
+        let errorResponse = await res.json();
+        setError(errorResponse["detail"]);
+
+      } else {
+        let isUploaded = await res.json()
+        if (isUploaded && auth !== '' ){
+          navigate('/file/'+ uploadId, {replace:true})
+        }
+        if (isUploaded) {
+          setUploaded(isUploaded);
+          positivCheck.current = true;
+        } 
+        setError([])
+      }
+    } catch (error) {
+      if (error.name==='AbortError'){
+        setError(['Possible Timeout'])
+    } else {
+        setError([error.message])
+    }
+  };
+  clearTimeout(id2);
+  }
 
   useEffect(()=>{
-    if (!didInit) {
+    if (!didInit.current) {
       getUploadId();
-      didInit = true;
+      didInit.current = true;
     }
     },[])
+  useEffect(() => {
+    const intervalCall = window.setInterval(() => {
+        if (uploadId !== '' && !positivCheck.current){
+          checkUploadId();
+        }       
+      }, 10000);
+    }, [uploadId]);
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <QRCodeSVG value={link+'upload/'+uploadId} size="512"/>
-        <a
-          className="App-link"
-          href={link+'file/'+uploadId}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {link+'file/'+ uploadId}
-        </a>
-      </header>
+        <QRCodeSVG className="QrCode" value={link+'upload/'+uploadId}/>
+        {uploaded ? <p><Link to={"file/"+uploadId}>get file</Link></p> : <p>Scan to continue</p>}
+        <p>{error} </p>
     </div>
   );
 }

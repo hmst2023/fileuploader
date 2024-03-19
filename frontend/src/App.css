@@ -1,31 +1,159 @@
-.App {
-  text-align: center;
+.All {
+  margin: auto;
+  align-items: center;
+  height: max-auto;
+  width:auto;
+  background-color: #282c34;
 }
 
+@media screen and (min-width: 900px) {
+    .All {
+    margin: auto;
+    align-items: center;
+    height: max-content;
+    width: 800px;
+    background-color: #282c34;
+  }
+}
+.Layout {
+  margin: auto;
+  display: block;
+  padding: 3%;
+}
+
+@media screen and (min-width: 900px) {
+  .Layout {
+    width: 512px;
+    margin: auto;
+    display: block;
+    padding: 3%;
+  }
+}
+.button {
+  background-color: none;
+  color: none;
+}
+
+.QrCode {
+  width: 80%;
+  height: 80%;
+}
+@media screen and (min-width: 900px) {
+  .QrCode {
+    width: 512px;
+    height: 512px;
+  }
+}
+.App {
+  margin: auto;
+  flex-flow: column;
+  min-height: fit-content;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  color: #61dafb;
+  font-size: calc(10px + 2vmin);
+  a {
+    color: #e0e373;
+    text-decoration: none;
+  }
+}
+.Footer {
+  display: flex;
+  min-height:max-content;
+  justify-content: space-between;
+  height: max-content;
+  padding: 2%;
+  background-color: #1c202b;
+  font-size:x-small;
+  align-items: center;
+  & a {
+    color: #5f4956;
+    text-decoration: none;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: lighter;
+  }
+}
+@media screen and (min-width: 900px) {
+  .Footer {
+    display: flex;
+    min-height:28px;
+    justify-content: space-between;
+    height: max-content;
+    padding: 2%;
+    background-color: #1c202b;
+    & a {
+      color: #5f4956;
+      text-decoration: none;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: lighter;
+    }
+  }
+}
+
+
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
+  
+}
+
+#x {
+  transform-origin: 41% 65%;
+}
+
+#y {
+  transform-origin: 33% 37%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  #x {
+    animation: App-logo-spin infinite 8s linear;
+  }
+  #y {
+    animation: App-logo-spin infinite 15s linear;
   }
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  padding: 10%;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+@media screen and (min-width: 900px) {
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  padding: 1%;
+  padding-bottom: 10%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+}
+.Text {
+  font-family: Helvetica, Arial, sans-serif;
+  color: rgb(188, 188, 188);
+  font-weight: lighter;
+  h3 {
+    padding-top: 15px;
+  }
+  h4 {
+    padding-top: 10px;
+  }
+  a {
+    color: blue;
+    text-decoration: none;
+  }
+  
 }
 
 @keyframes App-logo-spin {
