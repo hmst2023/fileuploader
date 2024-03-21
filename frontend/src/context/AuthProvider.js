@@ -27,14 +27,13 @@ export const AuthProvider = ({children}) => {
             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"+ ";path=/";
             let errorResponse = await res.json();
             console.log(errorResponse["detail"]);
-    
           } else {
             let token = await res.json()
             setAuth(token['token'])
             const d = new Date();
-            d.setTime(d.getTime() + (31*24*60*60*1000));
-            document.cookie = "token="+token["token"]+"; expires="+d+ ";path=/;samesite=strict";
-      
+            d.setTime(d.getTime() + (6*24*60*60*1000));
+            const ck = "token="+token["token"]+"; expires="+d.toUTCString()+"; path=/;samesite=strict";
+            document.cookie = ck;
           }
         } catch (error) {
           if (error.name==='AbortError'){

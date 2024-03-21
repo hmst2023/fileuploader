@@ -6,7 +6,6 @@ import Done from './Done'
 import File from './File'
 import Login from './Login'
 import Layout from './Layout'
-import CookieTest from './CookieTest'
 import RequiredAuthentication from './RequireAuthentication'
 import TermsOfUse from './TermsOfUse'
 import Datenschutz from './Datenschutz'
@@ -25,7 +24,6 @@ const App = () => {
           <Route path="done" element={<Done/>}/>
         </Route>
         <Route path="file/:id" element={<File/>}/>
-        <Route path="cookie" element={<CookieTest/>}/>
         <Route path="termsofuse" element={<TermsOfUse/>}/>
         <Route path="datenschutz" element={<Datenschutz/>}/>
         <Route path="impressum" element={<Impressum/>}/>
