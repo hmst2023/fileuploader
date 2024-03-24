@@ -31,7 +31,7 @@ export const AuthProvider = ({children}) => {
             let token = await res.json()
             setAuth(token['token'])
             const d = new Date();
-            d.setTime(d.getTime() + (6*24*60*60*1000));
+            d.setTime(d.getTime() + (31*24*60*60*1000));
             const ck = "token="+token["token"]+"; expires="+d.toUTCString()+"; path=/;samesite=strict";
             document.cookie = ck;
           }

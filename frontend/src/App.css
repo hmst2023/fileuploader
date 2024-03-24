@@ -1,16 +1,11 @@
 .All {
   margin: auto;
-  align-items: center;
-  height: max-auto;
   width:auto;
   background-color: #282c34;
 }
 
 @media screen and (min-width: 900px) {
     .All {
-    margin: auto;
-    align-items: center;
-    height: max-content;
     width: 800px;
     background-color: #282c34;
   }
@@ -24,9 +19,6 @@
 @media screen and (min-width: 900px) {
   .Layout {
     width: 512px;
-    margin: auto;
-    display: block;
-    padding: 3%;
   }
 }
 .button {
@@ -59,10 +51,10 @@
   }
 }
 .Footer {
-  display: flex;
+  display:flex;
   min-height:max-content;
+  height: min-content;
   justify-content: space-between;
-  height: max-content;
   padding: 2%;
   background-color: #1c202b;
   font-size:x-small;
@@ -77,12 +69,8 @@
 }
 @media screen and (min-width: 900px) {
   .Footer {
-    display: flex;
     min-height:28px;
-    justify-content: space-between;
-    height: max-content;
-    padding: 2%;
-    color: #5f4956;
+    height: fit-content;
     font-size:medium;
     background-color: #1c202b;
     & a {
@@ -95,10 +83,15 @@
 }
 
 
+.Logbutton {
+  height: 3vh;
+  width: 3vh;
+}
+
+
 .App-logo {
   height: 20vmin;
   pointer-events: none;
-  
 }
 
 #x {
@@ -131,15 +124,8 @@
 
 @media screen and (min-width: 900px) {
 .App-header {
-  background-color: #282c34;
-  display: flex;
   padding: 1%;
   padding-bottom: 10%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 }
 .Text {
