@@ -3,3 +3,5 @@
 Spacefile
 __pycache__/
 .idea/
+.vercel
+.env*.local

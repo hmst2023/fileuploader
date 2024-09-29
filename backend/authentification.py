@@ -1,16 +1,12 @@
-import os  # add for use with deta
 import jwt
 from fastapi import HTTPException, Security, Request, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from decouple import config  # deactivate for use with deta
-from setup import DEVELOPER_MODE
 
-if DEVELOPER_MODE:
-    SECRET_STRING = config('SECRET_STRING', cast=str)  # deactivate for use with deta
-else:
-    SECRET_STRING = os.getenv("SECRET_STRING", "test")
+
+SECRET_STRING = config('SECRET_STRING', cast=str)  # deactivate for use with deta
 
 
 class Authorization:

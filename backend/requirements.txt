@@ -1,6 +1,6 @@
+pymongo
 python-decouple
 python-multipart
-deta
 fastapi
 fastapi_mail
 fastapi_utils
@@ -8,4 +8,7 @@ passlib
 bcrypt
 PyJWT
 uvicorn
-
+vercel_blob
+pillow
+typing-inspect
+requests
