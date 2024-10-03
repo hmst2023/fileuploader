@@ -28,7 +28,7 @@ class DB:
     def delete(self, kv):
         return self.collection.delete_one(kv)
 
-    def update(self, v, k,  expire_in: int | None = None):
+    def update(self, k, v,  expire_in: int | None = None):
         if expire_in:
             v['expireAt'] = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=expire_in)
         return self.collection.update_one(k, {"$set":v})

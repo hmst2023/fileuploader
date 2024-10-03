@@ -86,8 +86,10 @@ async def follow_upload_id(upload_id:str, user_id=Depends(auth_handler.auth_wrap
     if response is None:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content=None)
     if response['user'] in {None, user_id}:
-        db.update({'link': upload_id},{'user':user_id}, expire_in=3600)
+        tempvar = db.update({'link': upload_id},{'user':user_id}, expire_in=3600)
+        print(tempvar)
         response = db.get({'link': upload_id})
+        print(response)
         return JSONResponse(status_code=status.HTTP_200_OK, content=FollowLink(**response).model_dump())
     return JSONResponse(status_code=status.HTTP_403_FORBIDDEN, content='in use by others')
 
@@ -140,7 +142,7 @@ def send_file(request: Request, upload_id:str, upload: UploadFile, user_id=Depen
         filename, extension = os.path.splitext(upload.filename)
         filename = user_id + '_' + filename.lower().replace(" ", "_")
         upload_response = drive.put(filename + extension, upload.file.read())
-        db.update({'value':upload_response['url']}, {'link':upload_id}, expire_in=3600)
+        db.update({'link':upload_id}, {'value':upload_response['url']}, expire_in=3600)
         db_backups.put({'filename': upload_response['url'], "uid": user_id, "ip":request.client.host}, expire_in=60*60*24*30)
         return JSONResponse(status_code=status.HTTP_200_OK, content="Done")
     return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=None)
